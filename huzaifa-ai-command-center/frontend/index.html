@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Huzaifa AI Command Center | Social & Automation Deck</title>
+    <meta name="description" content="AI operations command center for multi-platform social media generation (Instagram, TikTok, Facebook) with human-in-the-loop approval gating." />
+    <link rel="stylesheet" href="/frontend/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="brand-mark">H</span>
+          <div>
+            <strong>HUZAIFA AI</strong>
+            <small>COMMAND CENTER</small>
+          </div>
+        </div>
+        <nav id="nav-tabs">
+          <button class="nav-btn active" data-tab="deck">Command deck</button>
+          <button class="nav-btn" data-tab="content">Content studio <span class="nav-counter" id="content-counter">0</span></button>
+          <button class="nav-btn" data-tab="approvals">Approvals <span class="nav-counter alert" id="approval-counter">0</span></button>
+          <button class="nav-btn" data-tab="activity">Activity log</button>
+          <button class="nav-btn" data-tab="platforms">Platforms</button>
+        </nav>
+        <div class="status">
+          <span class="status-dot"></span>
+          <span>Local agent online</span>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <!-- HEADER -->
+        <header>
+          <div>
+            <p class="eyebrow" id="section-eyebrow">OPERATIONS / SOCIAL AUTOMATION</p>
+            <h1 id="section-title">Social & Workflow Deck</h1>
+          </div>
+          <div class="header-chip">
+            ENVIRONMENT <span id="env-badge">ACTIVE MVP 0.1.0</span>
+          </div>
+        </header>
+
+        <!-- VIEW 1: COMMAND DECK -->
+        <div id="view-deck" class="tab-view active">
+          <section class="hero-grid">
+            <div class="command-panel">
+              <div class="panel-label">
+                <span>COMMAND INPUT</span>
+                <span class="approval-tag">🛡️ APPROVAL MODE ACTIVE</span>
+              </div>
+
+              <!-- Quick action chips -->
+              <div class="quick-prompts">
+                <span class="quick-label">QUICK PROMPTS:</span>
+                <button type="button" class="chip" data-prompt="Create an AI automation post for Instagram, TikTok, and Facebook">🚀 All 3 (Insta + TikTok + FB)</button>
+                <button type="button" class="chip" data-prompt="Draft a viral 35-second script for TikTok about AI productivity tools">🎵 TikTok Viral Video</button>
+                <button type="button" class="chip" data-prompt="Create a high-engagement Instagram Reel and Carousel on building with AI agents">📸 Instagram Reel & Carousel</button>
+                <button type="button" class="chip" data-prompt="Write an in-depth Facebook discussion post about business workflow automation">👥 Facebook Case Study</button>
+              </div>
+
+              <textarea
+                id="message"
+                placeholder="Type your command: e.g. 'Create an AI automation post for Instagram, TikTok, and Facebook'..."
+              ></textarea>
+
+              <div class="command-footer">
+                <span class="safety-hint">🔒 Irreversible & publishing actions require explicit human sign-off.</span>
+                <button id="execute" class="primary-btn">
+                  <span>Create plan & draft</span>
+                  <b>↗</b>
+                </button>
+              </div>
+            </div>
+
+            <div class="signal-panel">
+              <p class="eyebrow">SYSTEM SIGNAL</p>
+              <div class="signal-value" id="sys-signal">READY<span>.</span></div>
+              <p>Planner, Content Engine & Permission Guards active. Multi-platform adapters for <b>Instagram</b>, <b>TikTok</b>, and <b>Facebook</b> stand ready.</p>
+              <div class="signal-badges">
+                <span class="sig-badge">📸 Insta Adapter</span>
+                <span class="sig-badge">🎵 TikTok Adapter</span>
+                <span class="sig-badge">👥 Facebook Adapter</span>
+              </div>
+              <div class="signal-line">
+                <i></i><i></i><i></i><i></i><i></i><i></i>
+              </div>
+            </div>
+          </section>
+
+          <!-- WORKSPACE / PLAN OUTPUT -->
+          <section class="workspace">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">LIVE ORCHESTRATOR</p>
+                <h2>Plan Execution & Approval State</h2>
+              </div>
+              <span id="status" class="status-indicator">Standing by for command</span>
+            </div>
+
+            <div id="output" class="output empty">
+              Enter a command above or click one of the quick prompts to generate social workflows for Instagram, TikTok, and Facebook.
+            </div>
+
+            <!-- APPROVAL BANNER (DYNAMIC) -->
+            <div id="approval-banner" class="approval-banner hidden">
+              <div class="approval-info">
+                <div class="approval-title">
+                  <span class="pulse-icon">⚠️</span>
+                  <div>
+                    <strong>Approval Required Before Live Publishing</strong>
+                    <p>The agent has drafted and checked content, but publishing requires human confirmation.</p>
+                  </div>
+                </div>
+                <div class="rule-box">
+                  <div class="rule-item allowed">
+                    <b>✅ KYA HOTA HAI:</b> Content is analyzed, hooks tailored, script timings formatted, and staged in memory with zero leak.
+                  </div>
+                  <div class="rule-item guarded">
+                    <b>🛡️ KYA NAHI HOTA:</b> Automatic unapproved posting to real social networks is completely blocked without human sign-off.
+                  </div>
+                </div>
+              </div>
+              <div class="approval-actions">
+                <button id="btn-approve" class="approve-btn">
+                  ✅ Approve & Execute (Sandbox Demo)
+                </button>
+                <button id="btn-view-drafts" class="secondary-btn">
+                  👀 Inspect Generated Drafts
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- GENERATED CONTENT PREVIEW AREA -->
+          <section id="content-preview-section" class="content-preview-section hidden">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">CONTENT STUDIO</p>
+                <h2>Generated Platform Drafts</h2>
+              </div>
+              <div class="platform-tabs" id="content-platform-tabs">
+                <button class="plat-tab active" data-platform="instagram">📸 Instagram</button>
+                <button class="plat-tab" data-platform="tiktok">🎵 TikTok</button>
+                <button class="plat-tab" data-platform="facebook">👥 Facebook</button>
+              </div>
+            </div>
+
+            <div id="platform-card-container" class="platform-card-container">
+              <!-- Dynamically filled by app.js -->
+            </div>
+          </section>
+
+          <section class="cards">
+            <article>
+              <span class="card-index">01</span>
+              <h3>Instagram Reels & Carousel</h3>
+              <p>Visual opening hooks, 5-slide carousels, aesthetic captions, visual prompts, and targeted hashtags.</p>
+            </article>
+            <article>
+              <span class="card-index">02</span>
+              <h3>TikTok 35s Viral Scripts</h3>
+              <p>High-retention 0-3s hook, time-stamped video directions, on-screen text overlays, and trending audio cues.</p>
+            </article>
+            <article>
+              <span class="card-index">03</span>
+              <h3>Facebook Case Studies</h3>
+              <p>Thought leadership framing, long-form discussion prompts, structured takeaways, and community engagement.</p>
+            </article>
+          </section>
+        </div>
+
+        <!-- VIEW 2: CONTENT STUDIO DEDICATED VIEW -->
+        <div id="view-content" class="tab-view">
+          <div class="workspace">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">STUDIO REPOSITORY</p>
+                <h2>Multi-Platform Content Assets</h2>
+              </div>
+              <span class="count-badge" id="studio-status">No drafts created yet</span>
+            </div>
+            <div id="studio-full-container" class="studio-empty">
+              <p>Draft your first post in the <b>Command deck</b> to see full multi-platform previews here.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIEW 3: APPROVALS VIEW -->
+        <div id="view-approvals" class="tab-view">
+          <div class="workspace">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">GOVERNANCE & PERMISSIONS</p>
+                <h2>Human-in-the-Loop Approvals</h2>
+              </div>
+              <span class="status-indicator">Safe Operations Protocol</span>
+            </div>
+            <div id="approvals-container">
+              <!-- Approvals listed here -->
+              <div class="empty-state">No pending actions requiring approval at this moment.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIEW 4: ACTIVITY LOG -->
+        <div id="view-activity" class="tab-view">
+          <div class="workspace">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">AUDIT TRAIL</p>
+                <h2>Real-Time Activity & Audit Log</h2>
+              </div>
+              <button id="refresh-audit" class="secondary-btn small">Refresh Log ⟳</button>
+            </div>
+            <div class="audit-table-wrapper">
+              <table class="audit-table">
+                <thead>
+                  <tr>
+                    <th>Timestamp</th>
+                    <th>Agent</th>
+                    <th>Action</th>
+                    <th>Tool / Scope</th>
+                    <th>Result / Status</th>
+                  </tr>
+                </thead>
+                <tbody id="audit-table-body">
+                  <tr><td colspan="5" style="text-align:center;color:var(--muted)">Loading audit trail...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIEW 5: PLATFORMS -->
+        <div id="view-platforms" class="tab-view">
+          <div class="workspace">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">CONNECTED ADAPTERS</p>
+                <h2>Social Media Publishing Adapters</h2>
+              </div>
+              <span class="status-indicator">Multi-Platform Configuration</span>
+            </div>
+            <div class="platforms-grid" id="platforms-grid">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+    <script src="/frontend/app.js"></script>
+  </body>
+</html>

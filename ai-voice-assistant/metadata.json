@@ -1,0 +1,7 @@
+{
+  "name": "Luccy AI Voice Assistant",
+  "description": "A multilingual AI voice assistant built by Huzaifa speaking Pakistani languages (Urdu, Pashto, Punjabi), English, and all global languages.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}

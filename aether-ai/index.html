@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AETHER AI — Your Business, Powered by AI</title>
+  <meta name="description" content="Deploy specialized intelligence modules, Jarvis-style systems, autonomous AI agents, and automated workflows engineered for the infinite.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Fixed 3D Canvas Background Layer -->
+  <div class="canvas-wrapper">
+    <canvas id="canvas3d"></canvas>
+    <div class="canvas-vignette"></div>
+    <div class="canvas-grid-overlay"></div>
+  </div>
+
+  <!-- Ambient Glowing Orbs -->
+  <div class="glow-orb glow-top-center"></div>
+  <div class="glow-orb glow-center-right"></div>
+  <div class="glow-orb glow-bottom-left"></div>
+
+  <!-- 3D Model HUD Floating Status Indicator -->
+  <div class="floating-3d-indicator" id="floating3dStatus">
+    <span class="status-dot"></span>
+    <span class="status-text">3D NEURAL MODEL: <span id="framePercent">0%</span> (FRAME <span id="frameNum">1</span>/243)</span>
+  </div>
+
+  <!-- Navigation Bar -->
+  <header class="site-header">
+    <div class="container nav-container">
+      <a href="#" class="logo">
+        <span class="logo-text">AETHER AI</span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#platform" class="nav-link active">Platform</a>
+        <a href="#solutions" class="nav-link">Solutions</a>
+        <a href="#enterprise" class="nav-link">Enterprise</a>
+        <a href="#docs" class="nav-link">Docs</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="btn btn-outline" id="loginBtn">LOGIN</button>
+        <button class="btn btn-primary" id="buildNowBtn">BUILD NOW</button>
+      </div>
+
+      <!-- Mobile Menu Toggle -->
+      <button class="mobile-toggle" id="mobileMenuBtn" aria-label="Toggle Navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div class="mobile-drawer" id="mobileDrawer">
+    <nav class="mobile-nav">
+      <a href="#platform" class="mobile-link active">Platform</a>
+      <a href="#solutions" class="mobile-link">Solutions</a>
+      <a href="#enterprise" class="mobile-link">Enterprise</a>
+      <a href="#docs" class="mobile-link">Docs</a>
+      <div class="mobile-actions">
+        <button class="btn btn-outline w-full" id="mobileLoginBtn">LOGIN</button>
+        <button class="btn btn-primary w-full" id="mobileBuildBtn">BUILD NOW</button>
+      </div>
+    </nav>
+  </div>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero-section" id="platform">
+      <div class="container hero-container">
+        <div class="hero-content">
+          <!-- Status Pill -->
+          <div class="status-badge">
+            <span class="status-dot"></span>
+            <span class="status-text">SYSTEM ONLINE</span>
+          </div>
+
+          <!-- Main Title -->
+          <h1 class="hero-title">
+            Your Business,<br>
+            <span class="gradient-text">Powered by AI.</span>
+          </h1>
+
+          <!-- Hero Subtitle -->
+          <p class="hero-description">
+            From personal AI assistants and Jarvis-style systems to automated workflows, AI agents and social media autoposting — we build intelligent systems that work for you 24/7.
+          </p>
+
+          <!-- CTA Action Row -->
+          <div class="hero-cta-group">
+            <button class="btn btn-cta" id="buildSystemBtn">
+              BUILD MY AI SYSTEM
+              <svg class="cta-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+            <button class="btn btn-secondary" id="exploreServicesBtn">
+              EXPLORE SERVICES
+            </button>
+          </div>
+
+          <!-- Pill Tags -->
+          <div class="tag-list">
+            <span class="tag-pill" data-category="agents">AI Agents</span>
+            <span class="tag-pill" data-category="automation">AI Automation</span>
+            <span class="tag-pill" data-category="workflows">AI Workflows</span>
+            <span class="tag-pill" data-category="assistant">Personal AI Assistant</span>
+          </div>
+        </div>
+
+        <!-- Neural Engine Floating HUD Widget -->
+        <div class="hero-widget-wrapper">
+          <div class="hud-card glass-panel" id="neuralEngineCard">
+            <div class="hud-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+                <rect x="9" y="9" width="6" height="6"></rect>
+                <line x1="9" y1="1" x2="9" y2="4"></line>
+                <line x1="15" y1="1" x2="15" y2="4"></line>
+                <line x1="9" y1="20" x2="9" y2="23"></line>
+                <line x1="15" y1="20" x2="15" y2="23"></line>
+                <line x1="20" y1="9" x2="23" y2="9"></line>
+                <line x1="20" y1="14" x2="23" y2="14"></line>
+                <line x1="1" y1="9" x2="4" y2="9"></line>
+                <line x1="1" y1="14" x2="4" y2="14"></line>
+              </svg>
+            </div>
+            <div class="hud-info">
+              <span class="hud-label">NEURAL ENGINE</span>
+              <div class="hud-value-row">
+                <span class="hud-value">Processing <span id="flopCounter">2.4</span>T FLOPs</span>
+                <span class="hud-pulse-ring"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Scroll Rotation Interactive Prompter -->
+    <div class="scroll-prompt-wrapper">
+      <div class="scroll-prompt">
+        <svg class="scroll-mouse-icon" width="20" height="28" viewBox="0 0 24 36" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="1" y="1" width="22" height="34" rx="11"></rect>
+          <line x1="12" y1="7" x2="12" y2="13" class="scroll-wheel"></line>
+        </svg>
+        <span>SCROLL TO ROTATE 3D ROBOT</span>
+      </div>
+    </div>
+
+    <!-- Core Features Section -->
+    <section class="features-section" id="solutions">
+      <div class="container">
+        <!-- Section Header -->
+        <div class="section-header">
+          <h2 class="section-title">AI That Actually Does the Work</h2>
+          <p class="section-subtitle">
+            Deploy specialized intelligence modules designed to automate complex, multi-step business processes with absolute precision.
+          </p>
+        </div>
+
+        <!-- 5 Cards Grid -->
+        <div class="cards-grid">
+          <!-- Card 1: AI Agents -->
+          <div class="feature-card glass-panel" data-feature="agents">
+            <div class="card-icon-wrapper">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="10" rx="2"></rect>
+                <circle cx="12" cy="5" r="2"></circle>
+                <path d="M12 7v4"></path>
+                <line x1="8" y1="16" x2="8" y2="16"></line>
+                <line x1="16" y1="16" x2="16" y2="16"></line>
+              </svg>
+            </div>
+            <h3 class="card-title">AI Agents</h3>
+            <p class="card-desc">
+              Autonomous entities capable of reasoning, planning, and executing complex tasks.
+            </p>
+            <div class="card-action">
+              <span>View Capabilities</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </div>
+          </div>
+
+          <!-- Card 2: AI Workflows -->
+          <div class="feature-card glass-panel" data-feature="workflows">
+            <div class="card-icon-wrapper">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="3" width="6" height="6" rx="1"></rect>
+                <rect x="16" y="3" width="6" height="6" rx="1"></rect>
+                <rect x="9" y="15" width="6" height="6" rx="1"></rect>
+                <path d="M5 9v3a2 2 0 0 0 2 2h5"></path>
+                <path d="M19 9v3a2 2 0 0 1-2 2h-5"></path>
+              </svg>
+            </div>
+            <h3 class="card-title">AI Workflows</h3>
+            <p class="card-desc">
+              Intelligent routing and data processing across your entire tech stack.
+            </p>
+            <div class="card-action">
+              <span>Explore Pipeline</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </div>
+          </div>
+
+          <!-- Card 3: Personal Assistant (Active/Featured Highlight) -->
+          <div class="feature-card active-card glass-panel" data-feature="assistant">
+            <div class="card-badge">HIGHLIGHTED</div>
+            <div class="card-icon-wrapper">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 18h6"></path>
+                <path d="M10 22h4"></path>
+                <path d="M12 2a7 7 0 0 0-7 7c0 2.5 1.5 4.5 3 6h8c1.5-1.5 3-3.5 3-6a7 7 0 0 0-7-7z"></path>
+                <circle cx="12" cy="9" r="1.5" fill="currentColor"></circle>
+              </svg>
+            </div>
+            <h3 class="card-title">Personal<br>Assistant</h3>
+            <p class="card-desc">
+              A bespoke AI trained on your specific voice, data, and daily operational needs.
+            </p>
+            <div class="card-action">
+              <span>Interactive Demo</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </div>
+          </div>
+
+          <!-- Card 4: Jarvis Systems -->
+          <div class="feature-card glass-panel" data-feature="jarvis">
+            <div class="card-icon-wrapper">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+                <circle cx="9" cy="9" r="1.5"></circle>
+                <circle cx="15" cy="9" r="1.5"></circle>
+                <path d="M8 15h8"></path>
+                <line x1="12" y1="2" x2="12" y2="4"></line>
+              </svg>
+            </div>
+            <h3 class="card-title">Jarvis Systems</h3>
+            <p class="card-desc">
+              Voice-activated, environment-aware central command structures.
+            </p>
+            <div class="card-action">
+              <span>Command Readout</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </div>
+          </div>
+
+          <!-- Card 5: Social Auto-Pilot -->
+          <div class="feature-card glass-panel" data-feature="social">
+            <div class="card-icon-wrapper">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="18" cy="5" r="3"></circle>
+                <circle cx="6" cy="12" r="3"></circle>
+                <circle cx="18" cy="19" r="3"></circle>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+              </svg>
+            </div>
+            <h3 class="card-title">Social Auto-Pilot</h3>
+            <p class="card-desc">
+              Generative content creation and scheduled multi-platform distribution.
+            </p>
+            <div class="card-action">
+              <span>View Distribution</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Architecture & Metrics Preview Section -->
+    <section class="metrics-preview-section" id="enterprise">
+      <div class="container">
+        <div class="preview-panel glass-panel">
+          <div class="preview-header">
+            <div class="preview-status">
+              <span class="pulse-dot"></span>
+              <span>LIVE NEURAL MATRIX</span>
+            </div>
+            <div class="terminal-meta">
+              <span>REGION: US-EAST (GLOBAL SYNC)</span>
+              <span>LATENCY: 14ms</span>
+            </div>
+          </div>
+          <div class="preview-content-grid">
+            <div class="preview-stat-card">
+              <div class="stat-num" id="statTasks">99.98%</div>
+              <div class="stat-name">Task Precision Accuracy</div>
+            </div>
+            <div class="preview-stat-card">
+              <div class="stat-num" id="statTokens">480M+</div>
+              <div class="stat-name">Autonomous Tokens / Day</div>
+            </div>
+            <div class="preview-stat-card">
+              <div class="stat-num" id="statUptime">100%</div>
+              <div class="stat-name">Zero-Downtime Multi-Agent Mesh</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Interactive 3D Interactive Stage Section -->
+    <section class="stage-section" id="docs">
+      <div class="container">
+        <div class="stage-card glass-panel">
+          <div class="stage-badge">
+            <span class="status-dot"></span>
+            <span>AUTONOMOUS CYBERNETIC ARCHITECTURE</span>
+          </div>
+          <h2 class="stage-title">End-to-End Enterprise Intelligence</h2>
+          <p class="stage-desc">
+            Seamlessly coordinate 24/7 autonomous agents, real-time voice perception, multi-modal synthesis, and distributed data processing.
+          </p>
+          <div class="stage-cta">
+            <button class="btn btn-primary" onclick="document.getElementById('systemBuilderModal').classList.add('open')">
+              DEPLOY ENTERPRISE CLUSTER
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <!-- Left Column: Branding -->
+      <div class="footer-brand">
+        <div class="footer-logo">AETHER AI</div>
+        <p class="footer-copy">
+          © 2024 Aether Automation. Engineered for the Infinite.
+        </p>
+      </div>
+
+      <!-- Right Columns: Nav Links -->
+      <div class="footer-columns">
+        <div class="footer-col">
+          <h4 class="col-title">SYSTEMS</h4>
+          <ul class="col-links">
+            <li><a href="#architecture" class="footer-link">Architecture</a></li>
+            <li><a href="#neural-engine" class="footer-link">Neural Engine</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="col-title">LEGAL</h4>
+          <ul class="col-links">
+            <li><a href="#privacy" class="footer-link">Privacy Protocol</a></li>
+            <li><a href="#terms" class="footer-link">Terms of Service</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="col-title">RESOURCES</h4>
+          <ul class="col-links">
+            <li><a href="#support" class="footer-link">Global Support</a></li>
+            <li><a href="#api" class="footer-link">API Reference</a></li>
+            <li><a href="#status" class="footer-link">Status</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Interactive Modal: AI System Builder / Configurator -->
+  <div class="modal-backdrop" id="systemBuilderModal">
+    <div class="modal-card glass-panel">
+      <button class="modal-close" id="modalCloseBtn">&times;</button>
+      <div class="modal-header">
+        <div class="status-badge modal-badge">
+          <span class="status-dot"></span>
+          <span>CONFIGURATION WIZARD</span>
+        </div>
+        <h2 class="modal-title">Deploy Your AI Architecture</h2>
+        <p class="modal-desc">Select your target modules and deploy an intelligent automation stack.</p>
+      </div>
+
+      <div class="modal-body">
+        <div class="module-selector-grid">
+          <label class="module-option">
+            <input type="checkbox" checked name="module" value="agents">
+            <div class="module-box">
+              <span class="module-title">Autonomous Agents</span>
+              <span class="module-sub">Multi-agent reasoning loops</span>
+            </div>
+          </label>
+          <label class="module-option">
+            <input type="checkbox" checked name="module" value="workflows">
+            <div class="module-box">
+              <span class="module-title">AI Workflows</span>
+              <span class="module-sub">Cross-stack pipeline routing</span>
+            </div>
+          </label>
+          <label class="module-option">
+            <input type="checkbox" checked name="module" value="assistant">
+            <div class="module-box">
+              <span class="module-title">Personal Assistant</span>
+              <span class="module-sub">Custom voice & memory index</span>
+            </div>
+          </label>
+          <label class="module-option">
+            <input type="checkbox" name="module" value="jarvis">
+            <div class="module-box">
+              <span class="module-title">Jarvis Command</span>
+              <span class="module-sub">Voice & OS environment control</span>
+            </div>
+          </label>
+          <label class="module-option">
+            <input type="checkbox" name="module" value="social">
+            <div class="module-box">
+              <span class="module-title">Social Auto-Pilot</span>
+              <span class="module-sub">Generative content scheduler</span>
+            </div>
+          </label>
+        </div>
+
+        <div class="builder-action-row">
+          <button class="btn btn-primary w-full" id="deploySystemBtn">INITIALIZE DEPLOYMENT SEQUENCE</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Detail Modal for Features -->
+  <div class="modal-backdrop" id="featureDetailModal">
+    <div class="modal-card glass-panel feature-detail-card">
+      <button class="modal-close" id="featureCloseBtn">&times;</button>
+      <div id="featureModalContent">
+        <!-- Injected via JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

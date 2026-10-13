@@ -1,0 +1,12 @@
+.env
+.env.*
+!.env.example
+__pycache__/
+*.pyc
+.venv/
+venv/
+storage/generated/*
+storage/uploads/*
+storage/logs/*
+*.db
+.pytest_cache/

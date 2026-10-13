@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PIA Aviation AI Study Agent — B1.1 & B2 | Aircraft Maintenance</title>
+  <meta name="description" content="Your personal AI aviation tutor for PIA B1.1 and B2 aircraft maintenance studies. MCQs, practical tasks, viva preparation, module guides, and smart study planning." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;600;700;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ═══════════ SECURITY GATE / PASSCODE SCREEN ═══════════ -->
+<div class="security-gate-overlay" id="security-gate">
+  <div class="security-gate-card">
+    <div class="security-gate-header">
+      <div class="security-logo-badge">
+        <img src="assets/logo.jpg" alt="PIA Logo" class="security-logo-img" />
+      </div>
+      <div class="security-badge-text">
+        <span class="security-org">PAKISTAN INTERNATIONAL AIRLINES</span>
+        <h1 class="security-title">Aviation Training Portal</h1>
+        <p class="security-subtitle">EASA &amp; PCAA Part-66 Aircraft Engineering Study Suite</p>
+      </div>
+    </div>
+
+    <!-- PASSCODE FORM (Stealth Master: Only Student Info Displayed) -->
+    <div class="security-form">
+      <label for="security-passcode-input" class="security-label">ENTER ACCESS PASSCODE</label>
+      <div class="passcode-input-wrapper">
+        <span class="passcode-icon">🔑</span>
+        <input type="password" id="security-passcode-input" class="passcode-input" placeholder="Enter access passcode..." autocomplete="current-password" autofocus />
+        <button type="button" class="btn-toggle-eye" id="btn-toggle-eye" onclick="togglePasscodeVisibility()" title="Show/Hide Password">👁️</button>
+      </div>
+
+      <div class="security-error-msg hidden" id="security-error-msg">
+        ⚠️ Invalid Passcode! Please check and re-try.
+      </div>
+
+      <button class="btn-unlock-system" id="btn-unlock-system" onclick="verifyAndUnlock()">
+        <span>🚀 Access Training Portal</span>
+      </button>
+    </div>
+
+    <!-- STUDENT INFO ONLY (OWNER PASSKEY IS SECRET & HIDDEN) -->
+    <div class="security-hints-card">
+      <div class="hint-header">ℹ️ Access Information:</div>
+      <div class="student-access-info">
+        <span class="role-dot dot-student"></span>
+        <div>Student / Trainee Access Code: <code id="hint-student-code">Student@PIA</code></div>
+      </div>
+      <div class="security-note">
+        Authorized for PIA engineering trainees and B1.1 / B2 license candidates.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <img src="assets/logo.jpg" alt="PIA Aviation Agent Logo" class="logo-img" />
+    <div class="logo-text">
+      <span class="logo-title">PIA Aviation</span>
+      <span class="logo-sub">AI Study Agent</span>
+    </div>
+  </div>
+
+  <!-- OWNER PROFILE BADGE -->
+  <div class="owner-profile-card" id="owner-profile-card" onclick="openSettings()" title="Click to view Owner Access & Settings">
+    <div class="owner-avatar">H</div>
+    <div class="owner-meta">
+      <div class="owner-title-row">
+        <span class="owner-name" id="sidebar-owner-name">Huzaifa</span>
+        <span class="owner-badge-tag">👑 OWNER</span>
+      </div>
+      <span class="owner-email" id="sidebar-owner-email">huzaifauk610@gmail.com</span>
+      <span class="owner-status-tag"><span class="pulse-dot"></span> Master Access Active</span>
+    </div>
+  </div>
+
+  <div class="sidebar-section-label">CORE MODES</div>
+  <ul class="nav-list">
+    <li class="nav-item active" data-mode="dashboard" id="nav-dashboard">
+      <span class="nav-icon">🛩️</span><span class="nav-label">Dashboard</span>
+    </li>
+    <li class="nav-item" data-mode="teach" id="nav-teach">
+      <span class="nav-icon">📚</span><span class="nav-label">Teach Mode</span>
+    </li>
+    <li class="nav-item" data-mode="mcq" id="nav-mcq">
+      <span class="nav-icon">📝</span><span class="nav-label">MCQ Exam</span>
+    </li>
+    <li class="nav-item" data-mode="practical" id="nav-practical">
+      <span class="nav-icon">🔧</span><span class="nav-label">Practical Tasks</span>
+    </li>
+    <li class="nav-item" data-mode="viva" id="nav-viva">
+      <span class="nav-icon">🎤</span><span class="nav-label">Oral Viva</span>
+    </li>
+    <li class="nav-item" data-mode="flashcards" id="nav-flashcards">
+      <span class="nav-icon">⚡</span><span class="nav-label">Flashcards</span>
+    </li>
+    <li class="nav-item" data-mode="plan" id="nav-plan">
+      <span class="nav-icon">📅</span><span class="nav-label">Study Planner</span>
+    </li>
+    <li class="nav-item" data-mode="research" id="nav-research">
+      <span class="nav-icon">🔍</span><span class="nav-label">Research</span>
+    </li>
+    <li class="nav-item" data-mode="chat" id="nav-chat">
+      <span class="nav-icon">🤖</span><span class="nav-label">AI Chat</span>
+    </li>
+  </ul>
+
+  <div class="sidebar-section-label">TRACKS</div>
+  <ul class="nav-list">
+    <li class="nav-item" data-mode="b1-modules" id="nav-b1">
+      <span class="nav-icon">⚙️</span><span class="nav-label">B1.1 Aerospace</span>
+    </li>
+    <li class="nav-item" data-mode="b2-modules" id="nav-b2">
+      <span class="nav-icon">📡</span><span class="nav-label">B2 Avionics</span>
+    </li>
+    <li class="nav-item" data-mode="aircraft" id="nav-aircraft">
+      <span class="nav-icon">✈️</span><span class="nav-label">Aircraft Types</span>
+    </li>
+    <li class="nav-item" data-mode="mistakes" id="nav-mistakes">
+      <span class="nav-icon">❌</span><span class="nav-label">Mistake Book</span>
+    </li>
+    <li class="nav-item" data-mode="progress" id="nav-progress">
+      <span class="nav-icon">📊</span><span class="nav-label">Progress</span>
+    </li>
+  </ul>
+
+  <div class="sidebar-footer">
+    <div class="pathway-badge" id="pathway-badge">B1.1 Pathway</div>
+    <button class="btn-switch-pathway" id="btn-switch-pathway">Switch Pathway</button>
+  </div>
+</nav>
+
+<!-- ═══════════ MAIN ═══════════ -->
+<div class="main-wrapper">
+
+  <header class="topbar">
+    <button class="hamburger" id="hamburger" aria-label="Toggle sidebar">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="topbar-center">
+      <div class="status-pill">🟢 Agent Active</div>
+      <span class="topbar-title" id="topbar-title">Mission Control Dashboard</span>
+    </div>
+    <div class="topbar-right">
+      <div class="owner-topbar-pill" id="owner-topbar-pill" onclick="openSettings()" title="Master Owner: Huzaifa (huzaifauk610@gmail.com)">
+        <span class="owner-pill-avatar">H</span>
+        <div class="owner-pill-text">
+          <span class="owner-pill-name">Huzaifa</span>
+          <span class="owner-pill-badge">👑 OWNER</span>
+        </div>
+      </div>
+      <div class="exam-countdown" id="exam-countdown">
+        <span class="countdown-label">Exam in</span>
+        <span class="countdown-days" id="countdown-days">42</span>
+        <span class="countdown-label">days</span>
+      </div>
+      <button class="btn-lock" id="btn-lock" onclick="lockSystem()" title="Lock System (Require Passcode)">🔒</button>
+      <button class="btn-settings" id="btn-settings" aria-label="Settings & Owner Access">⚙️</button>
+    </div>
+  </header>
+
+  <main class="content-area" id="content-area">
+
+    <!-- DASHBOARD -->
+    <section class="page active" id="page-dashboard">
+      <div class="hero-banner">
+        <img src="assets/hero_bg.jpg" alt="Aviation background" class="hero-bg" />
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+          <div class="hero-greeting" id="hero-greeting">Good Evening, Engineer 👋</div>
+          <h1 class="hero-title">Your PIA Aviation<br/><span class="gradient-text">AI Study Agent</span></h1>
+          <p class="hero-sub">B1.1 Aerospace · B2 Avionics · B777 · A320 · ATR · MCQs · Practical · Viva</p>
+          <div class="hero-actions">
+            <button class="btn-primary" onclick="switchMode('teach')">📚 Start Studying</button>
+            <button class="btn-secondary" onclick="switchMode('mcq')">📝 Quick MCQ</button>
+            <button class="btn-ghost" onclick="switchMode('plan')">📅 Today's Plan</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">🎯</div>
+          <div class="stat-value" id="stat-score-val">78%</div>
+          <div class="stat-label">MCQ Accuracy</div>
+          <div class="stat-trend trend-up">↑ +4% this week</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📖</div>
+          <div class="stat-value" id="stat-topics-val">34</div>
+          <div class="stat-label">Topics Studied</div>
+          <div class="stat-trend trend-up">↑ 3 new today</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🔥</div>
+          <div class="stat-value" id="stat-streak-val">7</div>
+          <div class="stat-label">Day Streak</div>
+          <div class="stat-trend trend-neutral">Keep it up!</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">⚠️</div>
+          <div class="stat-value" id="stat-weak-val">5</div>
+          <div class="stat-label">Weak Topics</div>
+          <div class="stat-trend trend-down">Needs review</div>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <div class="card today-card">
+          <div class="card-header">
+            <h2>📋 Today's Mission</h2>
+            <span class="badge badge-green">Active</span>
+          </div>
+          <div class="today-topics" id="today-topics">
+            <div class="topic-item priority-p0">
+              <div class="priority-tag">P0 — SAFETY</div>
+              <div class="topic-name">EWIS — Electrical Wiring Interconnect Systems</div>
+              <div class="topic-tags"><span class="tag memorize">MEMORIZE</span><span class="tag exam">EXAM</span></div>
+              <div class="topic-meta">Module 7 · B1.1 + B2 · Est. 45 min</div>
+            </div>
+            <div class="topic-item priority-p1">
+              <div class="priority-tag">P1 — CORE</div>
+              <div class="topic-name">Fuel Tank Safety (FTS) Regulations</div>
+              <div class="topic-tags"><span class="tag memorize">MEMORIZE</span><span class="tag understand">UNDERSTAND</span></div>
+              <div class="topic-meta">Module 10 · B1.1 · Est. 30 min</div>
+            </div>
+            <div class="topic-item priority-p2">
+              <div class="priority-tag">P2 — MAJOR</div>
+              <div class="topic-name">B777 Hydraulic System — Circuit Layout</div>
+              <div class="topic-tags"><span class="tag understand">UNDERSTAND</span><span class="tag recognize">RECOGNIZE</span></div>
+              <div class="topic-meta">B777 Type · ATA 29 · Est. 60 min</div>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="btn-primary small" onclick="switchMode('teach')">Start Learning →</button>
+          </div>
+        </div>
+
+        <div class="card weak-card">
+          <div class="card-header">
+            <h2>⚠️ Weak Topics</h2>
+            <span class="badge badge-red">Needs Review</span>
+          </div>
+          <div class="weak-list" id="weak-list">
+            <div class="weak-item" onclick="loadTopic('Digital Techniques')">
+              <div class="weak-name">Digital Techniques &amp; Avionics Systems</div>
+              <div class="weak-bar"><div class="weak-fill" style="width:32%"></div></div>
+              <div class="weak-pct">32% accuracy</div>
+            </div>
+            <div class="weak-item" onclick="loadTopic('Human Factors')">
+              <div class="weak-name">Human Factors &amp; CRM</div>
+              <div class="weak-bar"><div class="weak-fill" style="width:45%"></div></div>
+              <div class="weak-pct">45% accuracy</div>
+            </div>
+            <div class="weak-item" onclick="loadTopic('Aerodynamics')">
+              <div class="weak-name">Aerodynamics — High Speed Flight</div>
+              <div class="weak-bar"><div class="weak-fill" style="width:51%"></div></div>
+              <div class="weak-pct">51% accuracy</div>
+            </div>
+            <div class="weak-item" onclick="loadTopic('Pneumatics')">
+              <div class="weak-name">Pneumatic &amp; Air Conditioning Systems</div>
+              <div class="weak-bar"><div class="weak-fill" style="width:55%"></div></div>
+              <div class="weak-pct">55% accuracy</div>
+            </div>
+            <div class="weak-item" onclick="loadTopic('Navigation')">
+              <div class="weak-name">Navigation Systems — ILS/VOR/DME</div>
+              <div class="weak-bar"><div class="weak-fill" style="width:59%"></div></div>
+              <div class="weak-pct">59% accuracy</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card progress-card">
+          <div class="card-header">
+            <h2>📊 Module Progress</h2>
+            <span class="badge badge-blue">B1.1</span>
+          </div>
+          <div class="module-progress-list" id="module-progress"></div>
+        </div>
+
+        <div class="card flashcard-preview-card">
+          <div class="card-header">
+            <h2>⚡ Due Flashcards</h2>
+            <span class="badge badge-yellow">12 Due</span>
+          </div>
+          <div class="flashcard-preview" id="fc-preview">
+            <div class="fc-mini">
+              <div class="fc-q">What does EWIS stand for?</div>
+              <button class="btn-ghost small" onclick="switchMode('flashcards')">Reveal →</button>
+            </div>
+            <div class="fc-mini">
+              <div class="fc-q">Define "Airworthiness Directive"</div>
+              <button class="btn-ghost small" onclick="switchMode('flashcards')">Reveal →</button>
+            </div>
+            <div class="fc-mini">
+              <div class="fc-q">B777 — How many hydraulic systems?</div>
+              <button class="btn-ghost small" onclick="switchMode('flashcards')">Reveal →</button>
+            </div>
+          </div>
+          <button class="btn-primary small" onclick="switchMode('flashcards')">Review All 12 →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TEACH MODE -->
+    <section class="page" id="page-teach">
+      <div class="page-header">
+        <h1>📚 Teach Mode</h1>
+        <p>Select any topic — your AI tutor will explain it from zero to exam level</p>
+      </div>
+      <div class="teach-layout">
+        <div class="topic-sidebar">
+          <input type="text" class="search-input" id="topic-search" placeholder="🔍 Search topics..." oninput="filterTopics(this.value)" />
+          <div class="topic-tree" id="topic-tree"></div>
+        </div>
+        <div class="teach-content" id="teach-content">
+          <div class="teach-placeholder">
+            <div class="placeholder-icon">✈️</div>
+            <h2>Select a Topic to Begin</h2>
+            <p>Choose from the left panel or click a quick topic</p>
+            <div class="quick-topics">
+              <button class="quick-topic-btn" onclick="loadTopic('EWIS')">EWIS</button>
+              <button class="quick-topic-btn" onclick="loadTopic('Human Factors')">Human Factors</button>
+              <button class="quick-topic-btn" onclick="loadTopic('Aerodynamics')">Aerodynamics</button>
+              <button class="quick-topic-btn" onclick="loadTopic('Hydraulics')">Hydraulics</button>
+              <button class="quick-topic-btn" onclick="loadTopic('Avionics')">Avionics</button>
+              <button class="quick-topic-btn" onclick="loadTopic('Electrical Power')">Electrical Power</button>
+              <button class="quick-topic-btn" onclick="loadTopic('Gas Turbine Engine')">Gas Turbine</button>
+              <button class="quick-topic-btn" onclick="loadTopic('Navigation Systems')">Navigation</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MCQ EXAM -->
+    <section class="page" id="page-mcq">
+      <div class="page-header">
+        <h1>📝 MCQ Exam Engine</h1>
+        <p>Practice questions for B1.1, B2, and Aircraft Type exams</p>
+      </div>
+      <div class="mcq-layout" id="mcq-layout">
+        <div class="mcq-setup" id="mcq-setup">
+          <div class="setup-grid">
+            <div class="setup-card">
+              <h3>Track</h3>
+              <div class="radio-group" id="mcq-track">
+                <label class="radio-option active"><input type="radio" name="track" value="B1.1" checked /> B1.1 Aerospace</label>
+                <label class="radio-option"><input type="radio" name="track" value="B2" /> B2 Avionics</label>
+                <label class="radio-option"><input type="radio" name="track" value="B777" /> B777 Type</label>
+                <label class="radio-option"><input type="radio" name="track" value="A320" /> A320 Type</label>
+                <label class="radio-option"><input type="radio" name="track" value="ATR" /> ATR Type</label>
+              </div>
+            </div>
+            <div class="setup-card">
+              <h3>Module</h3>
+              <select class="select-input" id="mcq-module">
+                <option value="all">All Modules (Mixed)</option>
+                <option>Module 1 — Mathematics</option>
+                <option>Module 2 — Physics</option>
+                <option>Module 3 — Electrical Fundamentals</option>
+                <option>Module 4 — Electronic Fundamentals</option>
+                <option>Module 5 — Digital Techniques</option>
+                <option>Module 6 — Materials &amp; Hardware</option>
+                <option>Module 7 — Maintenance Practices</option>
+                <option>Module 8 — Aerodynamics</option>
+                <option>Module 9A — Human Factors</option>
+                <option>Module 10 — Aviation Legislation</option>
+                <option>Module 11A — Aeroplane Aerodynamics (B1)</option>
+                <option>Module 15 — Gas Turbine Engine</option>
+              </select>
+            </div>
+            <div class="setup-card">
+              <h3>Difficulty</h3>
+              <div class="radio-group">
+                <label class="radio-option"><input type="radio" name="diff" value="easy" /> 🟢 Easy</label>
+                <label class="radio-option active"><input type="radio" name="diff" value="medium" checked /> 🟡 Medium</label>
+                <label class="radio-option"><input type="radio" name="diff" value="hard" /> 🔴 Hard</label>
+                <label class="radio-option"><input type="radio" name="diff" value="mixed" /> 🎲 Mixed</label>
+              </div>
+            </div>
+            <div class="setup-card">
+              <h3>Questions</h3>
+              <div class="number-selector">
+                <button class="num-btn" onclick="adjustQ(-5)">−5</button>
+                <span class="num-display" id="q-count">20</span>
+                <button class="num-btn" onclick="adjustQ(5)">+5</button>
+              </div>
+              <div class="time-toggle">
+                <label class="toggle-label">
+                  <input type="checkbox" id="timed-mode" />
+                  <span class="toggle-switch"></span>
+                  Timed Mode
+                </label>
+              </div>
+            </div>
+          </div>
+          <button class="btn-primary large" onclick="startMCQ()" id="start-mcq-btn">🚀 Start Exam</button>
+        </div>
+        <div class="mcq-session hidden" id="mcq-session"></div>
+        <div class="mcq-results hidden" id="mcq-results"></div>
+      </div>
+    </section>
+
+    <!-- PRACTICAL -->
+    <section class="page" id="page-practical">
+      <div class="page-header">
+        <h1>🔧 Practical Tasks</h1>
+        <p>Supervised task simulations with safety guardrails</p>
+      </div>
+      <div class="safety-banner">
+        <span class="safety-icon">🛡️</span>
+        <span><strong>Safety First:</strong> Educational tool only. Always use current approved manuals, authorized instructors and approved procedures for actual maintenance tasks.</span>
+      </div>
+      <div class="practical-filter-bar">
+        <button class="filter-btn active" onclick="filterPractical('all', this)">All Tasks</button>
+        <button class="filter-btn" onclick="filterPractical('B777', this)">B777</button>
+        <button class="filter-btn" onclick="filterPractical('A320', this)">A320</button>
+        <button class="filter-btn" onclick="filterPractical('ATR', this)">ATR</button>
+        <button class="filter-btn" onclick="filterPractical('basic', this)">Basic Workshop</button>
+      </div>
+      <div class="practical-tasks" id="practical-tasks"></div>
+      <div class="practical-detail hidden" id="practical-detail"></div>
+    </section>
+
+    <!-- VIVA -->
+    <section class="page" id="page-viva">
+      <div class="page-header">
+        <h1>🎤 Oral Viva Simulator</h1>
+        <p>Practice technical questions just like a real oral exam</p>
+      </div>
+      <div class="viva-container">
+        <div class="viva-setup" id="viva-setup">
+          <div class="setup-grid">
+            <div class="setup-card">
+              <h3>Viva Type</h3>
+              <div class="radio-group">
+                <label class="radio-option active"><input type="radio" name="viva-type" value="basic" checked /> Basic Module Viva</label>
+                <label class="radio-option"><input type="radio" name="viva-type" value="type" /> Aircraft Type Viva</label>
+                <label class="radio-option"><input type="radio" name="viva-type" value="practical" /> Post-Practical Viva</label>
+              </div>
+            </div>
+            <div class="setup-card">
+              <h3>Examiner Style</h3>
+              <div class="radio-group">
+                <label class="radio-option active"><input type="radio" name="examiner" value="mentor" checked /> 👨‍🏫 Mentor (helpful hints)</label>
+                <label class="radio-option"><input type="radio" name="examiner" value="strict" /> 🎓 Strict (no hints)</label>
+                <label class="radio-option"><input type="radio" name="examiner" value="probing" /> 🔬 Probing (follow-up Qs)</label>
+              </div>
+            </div>
+          </div>
+          <button class="btn-primary large" onclick="startViva()">🎙️ Begin Viva</button>
+        </div>
+        <div class="viva-session hidden" id="viva-session"></div>
+      </div>
+    </section>
+
+    <!-- FLASHCARDS -->
+    <section class="page" id="page-flashcards">
+      <div class="page-header">
+        <h1>⚡ Flashcard Review</h1>
+        <p>Spaced-repetition system — review what matters most right now</p>
+      </div>
+      <div class="flashcard-area" id="flashcard-area"></div>
+    </section>
+
+    <!-- STUDY PLANNER -->
+    <section class="page" id="page-plan">
+      <div class="page-header">
+        <h1>📅 Study Planner</h1>
+        <p>Daily, weekly, and monthly plan personalized to your exam date</p>
+      </div>
+      <div class="planner-layout" id="planner-layout"></div>
+    </section>
+
+    <!-- RESEARCH -->
+    <section class="page" id="page-research">
+      <div class="page-header">
+        <h1>🔍 Research Agent</h1>
+        <p>Find official PCAA, PIA, and EASA references — source-tracked and revision-dated</p>
+      </div>
+      <div class="research-layout">
+        <div class="research-search">
+          <input type="text" class="search-input large" id="research-query" placeholder="Search regulatory topics, requirements, manuals..." onkeydown="if(event.key==='Enter') doResearch()" />
+          <button class="btn-primary" onclick="doResearch()">🔍 Research</button>
+        </div>
+        <div class="research-filters">
+          <span class="filter-label">Sources:</span>
+          <label class="check-filter"><input type="checkbox" checked id="src-pcaa" /> PCAA/PIA</label>
+          <label class="check-filter"><input type="checkbox" checked id="src-easa" /> EASA (reference)</label>
+          <label class="check-filter"><input type="checkbox" checked id="src-icao" /> ICAO</label>
+          <label class="check-filter"><input type="checkbox" id="src-faa" /> FAA (comparison)</label>
+        </div>
+        <div class="research-results" id="research-results">
+          <div class="research-placeholder">
+            <div class="placeholder-icon">🔍</div>
+            <p>Enter a regulatory topic to search official sources</p>
+            <div class="quick-research">
+              <button class="quick-topic-btn" onclick="quickResearch('PCAA Part-66 requirements')">PCAA Part-66</button>
+              <button class="quick-topic-btn" onclick="quickResearch('EWIS requirements')">EWIS Rules</button>
+              <button class="quick-topic-btn" onclick="quickResearch('Fuel Tank Safety')">FTS Rules</button>
+              <button class="quick-topic-btn" onclick="quickResearch('Aviation Legislation Pakistan')">PK Legislation</button>
+              <button class="quick-topic-btn" onclick="quickResearch('Human Factors aircraft maintenance')">Human Factors</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI CHAT -->
+    <section class="page" id="page-chat">
+      <div class="page-header">
+        <h1>🤖 AI Aviation Chat</h1>
+        <p>Ask anything about aviation, modules, exams, practical tasks, or regulations</p>
+      </div>
+      <div class="chat-container" id="chat-container">
+        <div class="chat-messages" id="chat-messages">
+          <div class="chat-msg agent">
+            <div class="msg-avatar">✈️</div>
+            <div class="msg-bubble">
+              <strong>PIA Aviation Agent</strong>
+              <p>Assalam-o-Alaikum! I'm your AI aviation study companion. Here are my commands:</p>
+              <div class="command-list">
+                <div class="cmd-row"><span class="cmd">/teach [topic]</span><span class="cmd-desc">Explain any aviation concept</span></div>
+                <div class="cmd-row"><span class="cmd">/mcq [module]</span><span class="cmd-desc">Generate practice questions</span></div>
+                <div class="cmd-row"><span class="cmd">/practical [task]</span><span class="cmd-desc">Walk through a maintenance task</span></div>
+                <div class="cmd-row"><span class="cmd">/viva</span><span class="cmd-desc">Start an oral exam session</span></div>
+                <div class="cmd-row"><span class="cmd">/today</span><span class="cmd-desc">Get today's study plan</span></div>
+                <div class="cmd-row"><span class="cmd">/weak-topics</span><span class="cmd-desc">Show your weak areas</span></div>
+                <div class="cmd-row"><span class="cmd">/research [regulation]</span><span class="cmd-desc">Look up official sources</span></div>
+                <div class="cmd-row"><span class="cmd">/flashcards</span><span class="cmd-desc">Start spaced repetition review</span></div>
+                <div class="cmd-row"><span class="cmd">/memorize [topic]</span><span class="cmd-desc">Key facts to memorize</span></div>
+                <div class="cmd-row"><span class="cmd">/understand [topic]</span><span class="cmd-desc">Deep conceptual understanding</span></div>
+              </div>
+              <p>What would you like to study today?</p>
+            </div>
+          </div>
+        </div>
+        <div class="chat-input-area">
+          <div class="command-chips" id="command-chips">
+            <button class="chip" onclick="insertCommand('/teach ')">/teach</button>
+            <button class="chip" onclick="insertCommand('/mcq ')">/mcq</button>
+            <button class="chip" onclick="insertCommand('/viva')">/viva</button>
+            <button class="chip" onclick="insertCommand('/practical ')">/practical</button>
+            <button class="chip" onclick="insertCommand('/today')">/today</button>
+            <button class="chip" onclick="insertCommand('/weak-topics')">/weak-topics</button>
+            <button class="chip" onclick="insertCommand('/research ')">/research</button>
+            <button class="chip" onclick="insertCommand('/memorize ')">/memorize</button>
+          </div>
+          <div class="chat-input-row">
+            <textarea class="chat-input" id="chat-input" placeholder="Ask a question or type a command like /mcq Module 7..." rows="2" onkeydown="handleChatKey(event)"></textarea>
+            <button class="btn-send" onclick="sendChat()" id="send-btn">➤</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- B1 MODULES -->
+    <section class="page" id="page-b1-modules">
+      <div class="page-header">
+        <h1>⚙️ B1.1 Aerospace — Module Map</h1>
+        <p>Complete syllabus structure for B1.1 Mechanical/Aerospace licensing</p>
+      </div>
+      <div class="module-map" id="b1-module-map"></div>
+    </section>
+
+    <!-- B2 MODULES -->
+    <section class="page" id="page-b2-modules">
+      <div class="page-header">
+        <h1>📡 B2 Avionics — Module Map</h1>
+        <p>Complete syllabus structure for B2 Avionics licensing</p>
+      </div>
+      <div class="module-map" id="b2-module-map"></div>
+    </section>
+
+    <!-- AIRCRAFT TYPES -->
+    <section class="page" id="page-aircraft">
+      <div class="page-header">
+        <h1>✈️ Aircraft Type Training</h1>
+        <p>Separate knowledge bases for B777, A320-family, and ATR-family</p>
+      </div>
+      <div class="aircraft-tabs">
+        <button class="aircraft-tab active" onclick="switchAircraft('B777', this)">Boeing B777</button>
+        <button class="aircraft-tab" onclick="switchAircraft('A320', this)">Airbus A320</button>
+        <button class="aircraft-tab" onclick="switchAircraft('ATR', this)">ATR Family</button>
+      </div>
+      <div class="aircraft-content" id="aircraft-content"></div>
+    </section>
+
+    <!-- MISTAKE BOOK -->
+    <section class="page" id="page-mistakes">
+      <div class="page-header">
+        <h1>❌ Mistake Book</h1>
+        <p>Every wrong answer is recorded and turned into a targeted lesson</p>
+      </div>
+      <div class="mistake-book" id="mistake-book"></div>
+    </section>
+
+    <!-- PROGRESS -->
+    <section class="page" id="page-progress">
+      <div class="page-header">
+        <h1>📊 Progress Dashboard</h1>
+        <p>Complete analytics across all modules, modes, and aircraft types</p>
+      </div>
+      <div class="progress-dashboard" id="progress-dashboard"></div>
+    </section>
+
+  </main>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay hidden" id="modal-overlay">
+  <div class="modal" id="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-content" id="modal-content"></div>
+  </div>
+</div>
+
+<!-- SETTINGS & OWNER ACCESS PANEL -->
+<div class="settings-panel-overlay hidden" id="settings-panel" onclick="handleSettingsBackdrop(event)">
+  <div class="settings-panel-card">
+    <div class="settings-header">
+      <div class="settings-header-title">
+        <span class="settings-icon">👑</span>
+        <div>
+          <h2>Master Owner Access &amp; Engineering Station</h2>
+          <span class="settings-sub">PIA Aviation AI Agent System Control</span>
+        </div>
+      </div>
+      <button class="modal-close" onclick="closeSettings()">✕</button>
+    </div>
+
+    <!-- OWNER STATUS BANNER -->
+    <div class="owner-status-banner">
+      <div class="owner-status-header">
+        <span class="owner-crown">👑 MASTER OWNER CREDENTIALS</span>
+        <span class="owner-verified-chip">✅ VERIFIED OWNER</span>
+      </div>
+      <div class="owner-banner-grid">
+        <div class="owner-info-cell">
+          <label>PRIMARY OWNER EMAIL</label>
+          <div class="owner-val-email" id="owner-banner-email">huzaifauk610@gmail.com</div>
+        </div>
+        <div class="owner-info-cell">
+          <label>SYSTEM AUTHORITY</label>
+          <div class="owner-val-highlight">Chief Aviation Engineer &amp; Administrator</div>
+        </div>
+        <div class="owner-info-cell">
+          <label>LICENSING CLEARANCE</label>
+          <div class="owner-val">Dual EASA / PCAA Part-66 (B1.1 + B2)</div>
+        </div>
+        <div class="owner-info-cell">
+          <label>ACCESS PERMISSIONS</label>
+          <div class="owner-val" style="color:var(--green)">● Unrestricted Root Access (All 17 Modules)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="settings-body">
+      <div class="setting-row-2col">
+        <div class="setting-group">
+          <label>Owner Display Name</label>
+          <input type="text" class="select-input" id="setting-name" value="Huzaifa" placeholder="Owner Name" />
+        </div>
+        <div class="setting-group">
+          <label>Owner Primary Email</label>
+          <input type="email" class="select-input" id="setting-email" value="huzaifauk610@gmail.com" readonly title="Primary Owner Email (Fixed)" style="background:rgba(0,229,255,0.06);border-color:rgba(0,229,255,0.3);color:var(--cyan);font-weight:600;" />
+        </div>
+      </div>
+
+      <div class="setting-row-2col">
+        <div class="setting-group">
+          <label>Licensing Track</label>
+          <select class="select-input" id="setting-pathway">
+            <option value="Both B1.1 + B2" selected>Both B1.1 (Aerospace) + B2 (Avionics)</option>
+            <option value="B1.1 Aerospace">B1.1 Aerospace (Mechanical)</option>
+            <option value="B2 Avionics">B2 Avionics (Instruments/Radio/Electrics)</option>
+          </select>
+        </div>
+        <div class="setting-group">
+          <label>Target Exam Date</label>
+          <input type="date" class="select-input" id="setting-exam-date" />
+        </div>
+      </div>
+
+      <div class="setting-row-2col">
+        <div class="setting-group">
+          <label>Daily Study Commitment (Hours)</label>
+          <input type="number" class="select-input" id="setting-hours" min="1" max="16" value="4" />
+        </div>
+        <div class="setting-group">
+          <label>Priority Fleet Airframe</label>
+          <select class="select-input" id="setting-aircraft">
+            <option value="B777" selected>Boeing 777-200ER/LR / 300ER</option>
+            <option value="A320">Airbus A320-200 (CFM56 / IAE V2500)</option>
+            <option value="ATR">ATR 42-500 / 72-500 (PW127F)</option>
+            <option value="All">All PIA Fleet Aircraft</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- ACCESS CONTROL & PASSWORD MANAGEMENT -->
+      <div class="settings-security-box">
+        <div class="security-box-header">
+          <span class="security-box-icon">🔐</span>
+          <div>
+            <h3>Access Passwords &amp; Authorization Control</h3>
+            <p>Control who can access the agent. Set your Master Owner Passkey or provide Guest codes to others.</p>
+          </div>
+        </div>
+
+        <div class="setting-row-2col">
+          <div class="setting-group">
+            <label>👑 Master Owner Passkey (Your Key)</label>
+            <input type="text" class="select-input" id="setting-master-password" value="Uzi@7869" placeholder="e.g. Uzi@7869" />
+            <span class="field-hint">Unrestricted access + owner privileges.</span>
+          </div>
+          <div class="setting-group">
+            <label>🎓 Student / Trainee Passcode (Share with Students)</label>
+            <div style="display:flex;gap:8px;">
+              <input type="text" class="select-input" id="setting-guest-password" value="Student@PIA" placeholder="e.g. Student@PIA" style="flex:1" />
+              <button type="button" class="btn-secondary small" onclick="copyStudentPasscode()" title="Copy Student Passcode to Clipboard">📋 Copy</button>
+            </div>
+            <span class="field-hint">Give this password to students/colleagues to study.</span>
+          </div>
+        </div>
+
+        <div class="security-toggle-row">
+          <label class="toggle-switch">
+            <input type="checkbox" id="setting-require-lock" checked />
+            <span class="toggle-track"></span>
+          </label>
+          <div class="toggle-label-text">
+            <strong>Enable Password Lock on Startup</strong>
+            <span>When active, any user must enter a valid passcode to open the system.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="owner-quick-actions">
+        <button class="btn-primary" onclick="saveSettings()">💾 Save &amp; Apply Owner Settings</button>
+        <button class="btn-secondary" onclick="lockSystem()">🔒 Lock System Now</button>
+        <button class="btn-secondary" onclick="unlockAllModules()">🔓 Unlock All 17 Modules</button>
+        <button class="btn-secondary" onclick="exportUserData()">📥 Export Study Data</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

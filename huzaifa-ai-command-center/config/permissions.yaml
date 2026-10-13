@@ -1,0 +1,11 @@
+permissions:
+  filesystem.read: READ
+  filesystem.write: WRITE
+  terminal.run: EXECUTE
+  social.publish: PUBLISH
+  github.delete_repository: DELETE
+  system.settings: ADMIN
+approval_required:
+  - PUBLISH
+  - DELETE
+  - ADMIN
